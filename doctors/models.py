@@ -30,4 +30,4 @@ class Doctors (models.Model):
     def __str__(self):
         return f"Dr. {self.full_name} - {self.specialization}"
 
-# Create your models here.
+
