@@ -3,6 +3,10 @@
 # from django.contrib.auth.hashers import make_password
 # from django.contrib.auth.models import AbstractUser
 
+
+
+
+
 # class Signup (AbstractUser):
 #     username = models.CharField(max_length=150, unique=True, default="default_user")
 #     first_name=models.CharField(max_length=20,default="")
