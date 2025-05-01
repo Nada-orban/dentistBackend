@@ -19,7 +19,11 @@ def register_user(request):
     if serializerdata.is_valid():
         user = serializerdata.save()
         token, _ = Token.objects.get_or_create(user=user)
-        return Response(serializerdata.data, status=status.HTTP_201_CREATED)
+        return Response({
+            "message": "User created successfully",
+            "user_id": user.id,
+            "token": token.key
+        }, status=201)
     return Response(serializerdata.errors, status=400)
     # username = request.data.get("username")
     # email = request.data.get("email")
