@@ -18,16 +18,20 @@ import traceback
 def register_user(request):
     serializerdata=RegisterSerializer(data=request.data)
     if serializerdata.is_valid():
-        user = serializerdata.save()                       # ← creates & saves user
-        token, _ = Token.objects.get_or_create(user=user)
-        return Response(
-            {
-                "message": "User created successfully",
-                "user_id": user.id,
-                "token": token.key,
-            },
-            status=status.HTTP_201_CREATED,
-        )
+        try:
+            user = serializerdata.save()                       # ← creates & saves user
+            token, _ = Token.objects.get_or_create(user=user)
+            return Response(
+                {
+                    "message": "User created successfully",
+                    "user_id": user.id,
+                    "token": token.key,
+                },
+                status=status.HTTP_201_CREATED,
+                )
+        except Exception as e:
+            traceback.print_exc()      # ← will show full error in logs
+            return Response({"error": str(e)}, status=500)
     # validation failed – return errors
         # user = serializerdata.save()
         # try:
