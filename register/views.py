@@ -55,6 +55,9 @@ def register_user(request):
         # # print full traceback to Railway logs
         #     traceback.print_exc()
         #     return Response({"error": str(e)}, status=500)
-      
-    return Response(serializerdata.errors, status=400)
+    else:
+        # ✅ move .errors here
+        logger.warning(f"Validation errors: {serializerdata.errors}")
+        return Response(serializerdata.errors, status=400)  
+    
    
