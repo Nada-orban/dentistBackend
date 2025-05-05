@@ -18,7 +18,7 @@ logger = logging.getLogger(__name__)
 @permission_classes([AllowAny])
 def register_user(request):
     serializerdata=RegisterSerializer(data=request.data)
-    print(serializerdata.errors)
+    
     if serializerdata.is_valid():
         try:
             user = serializerdata.save()                       # ← creates & saves user
