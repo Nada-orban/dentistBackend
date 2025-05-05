@@ -18,6 +18,7 @@ logger = logging.getLogger(__name__)
 @permission_classes([AllowAny])
 def register_user(request):
     serializerdata=RegisterSerializer(data=request.data)
+    print(serializerdata.errors)
     if serializerdata.is_valid():
         try:
             user = serializerdata.save()                       # ← creates & saves user
@@ -31,7 +32,8 @@ def register_user(request):
                 status=status.HTTP_201_CREATED,
                 )
         except Exception as e:
-            traceback.print_exc()      # ← will show full error in logs
+            traceback.print_exc() 
+            logger.exception("Error during user registration")# ← will show full error in logs
             return Response({"error": str(e)}, status=500)
     # validation failed – return errors
         # user = serializerdata.save()

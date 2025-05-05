@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 
 from pathlib import Path
 import os
+import logging
 
 
 
@@ -164,3 +165,23 @@ CORS_ALLOW_HEADERS = [
 MEDIA_URL = "/media/"  # URL path for accessing media files
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")  # type: ignore
 # STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "handlers": {
+        "console": {
+            "class": "logging.StreamHandler",
+        },
+    },
+    "root": {
+        "handlers": ["console"],
+        "level": "DEBUG" if DEBUG else "INFO",
+    },
+    "loggers": {
+        "django": {
+            "handlers": ["console"],
+            "level": "DEBUG" if DEBUG else "INFO",
+            "propagate": False,
+        },
+    },
+}
