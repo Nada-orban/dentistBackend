@@ -1,1 +1,1 @@
-web: gunicorn dentist.wsgi
+web: python manage.py migrate --noinput && gunicorn dentist.wsgi
