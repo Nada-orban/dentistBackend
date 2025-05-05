@@ -6,10 +6,11 @@ from rest_framework.authtoken.models import Token
 from rest_framework.permissions import AllowAny ,IsAuthenticated
 from .serializers import RegisterSerializer
 import traceback
+import logging
 # from .models import Signup
 # from .serializers import SignupSerializer
 
-
+logger = logging.getLogger(__name__)
 
 
 #signin and signup
