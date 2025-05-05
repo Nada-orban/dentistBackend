@@ -1,1 +1,2 @@
-web: python manage.py migrate --noinput && gunicorn dentist.wsgi
+release: python manage.py migrate --noinput
+web: gunicorn dentist.wsgi
