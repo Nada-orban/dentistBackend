@@ -105,18 +105,48 @@ WSGI_APPLICATION = 'dentist.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
+# DATABASE_URL = os.getenv('DATABASE_URL', 'sqlite:///db.sqlite3')
 
-DATABASES = {
-    # 'default': {
-    #     'ENGINE': 'django.db.backends.sqlite3',
-    #     'NAME': BASE_DIR / 'db.sqlite3',
-    # }
-    'default': dj_database_url.config(
-        default='YOUR_RAILWAY_POSTGRES_URL',
-        conn_max_age=600,
-        ssl_require=True
-    )
-}
+# if DATABASE_URL.startswith("sqlite"):
+#     DATABASES = {
+#         'default': dj_database_url.parse(DATABASE_URL)
+#     }
+# else:
+#     DATABASES = {
+#         'default': dj_database_url.parse(DATABASE_URL, conn_max_age=600, ssl_require=True)
+#     }
+if os.getenv('RAILWAY_DATABASE_URL'):  # on Railway
+    import urllib.parse
+    result = urllib.parse.urlparse(os.getenv('RAILWAY_DATABASE_URL'))
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': result.path[1:],  # strip leading slash
+            'USER': result.username,
+            'PASSWORD': result.password,
+            'HOST': result.hostname,
+            'PORT': result.port,
+        }
+    }
+else:  # local SQLite
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
+    }
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+#     #   'default': dj_database_url.config(
+#     #     default=os.environ.get("DATABASE_URL", f"sqlite:///{os.path.join(BASE_DIR, 'db.sqlite3')}"),
+#     #     conn_max_age=600,
+#     #     ssl_require=True
+#     # )
+#     # 'default': dj_database_url.config(default='sqlite:///db.sqlite3')
+# }
 
 
 # Password validation
