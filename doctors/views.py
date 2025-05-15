@@ -9,7 +9,7 @@ from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework.permissions import AllowAny ,IsAuthenticated
 
 @api_view(['GET'])
-@permission_classes([AllowAny])
+# @permission_classes([AllowAny])
 def get_Doctors(request):
     DoctorsList = Doctors.objects.all()  # Get all records
     serializer = DoctorsSerializers(DoctorsList, many=True)  # Serialize data
