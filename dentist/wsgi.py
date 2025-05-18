@@ -11,7 +11,7 @@ import os
 
 from django.core.wsgi import get_wsgi_application
 
-User = get_user_model()
+
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'dentist.settings')
 
