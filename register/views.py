@@ -23,11 +23,15 @@ def register_user(request):
         try:
             user = serializerdata.save()                       # ← creates & saves user
             token, _ = Token.objects.get_or_create(user=user)
+            
+            is_doctor = hasattr(user, 'doctor_profile')
+            is_admin = user.is_staff or user.is_superuser  # or your custom admin field
             return Response(
                 {
                     "message": "User created successfully",
                     "user_id": user.id,
                     "token": token.key,
+                    'role': 'doctor' if is_doctor else 'admin' if is_admin else 'user',
                 },
                 status=status.HTTP_201_CREATED,
                 )
