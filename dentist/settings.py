@@ -29,9 +29,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-)hht(o-1i)6x(xf8f4#dn^@id#y1%p!^772npdnlndp*46xq4z'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = ['127.0.0.1', '0.0.0.0','localhost','web-production-de0df.up.railway.app','web-production-edf6.up.railway.app']
+ALLOWED_HOSTS = ['127.0.0.1', '0.0.0.0','localhost','web-production-de0df.up.railway.app','web-production-edf6.up.railway.app','3.17.144.228']
 CORS_ALLOW_CREDENTIALS = True
 CORS_ALLOW_ALL_ORIGINS = True
 CORS_ALLOW_METHODS = ["DELETE", "GET", "OPTIONS", "PATCH", "POST", "PUT"]
@@ -115,26 +115,37 @@ WSGI_APPLICATION = 'dentist.wsgi.application'
 #     DATABASES = {
 #         'default': dj_database_url.parse(DATABASE_URL, conn_max_age=600, ssl_require=True)
 #     }
-if os.getenv('RAILWAY_DATABASE_URL'):  # on Railway
-    import urllib.parse
-    result = urllib.parse.urlparse(os.getenv('RAILWAY_DATABASE_URL'))
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.postgresql',
-            'NAME': result.path[1:],  # strip leading slash
-            'USER': result.username,
-            'PASSWORD': result.password,
-            'HOST': result.hostname,
-            'PORT': result.port,
-        }
+# if os.getenv('RAILWAY_DATABASE_URL'):  # on Railway
+#     import urllib.parse
+#     result = urllib.parse.urlparse(os.getenv('RAILWAY_DATABASE_URL'))
+    # DATABASES = {
+    #     'default': {
+    #         'ENGINE': 'django.db.backends.postgresql',
+    #         'NAME': result.path[1:],  # strip leading slash
+    #         'USER': result.username,
+    #         'PASSWORD': result.password,
+    #         'HOST': result.hostname,
+    #         'PORT': result.port,
+    #     }
+    # }
+# else:  # local SQLite
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'dentistdb',
+        'USER': 'dentistuser',
+        'PASSWORD': 'yourpassword',
+        'HOST': 'localhost',
+        'PORT': '5432',
     }
-else:  # local SQLite
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': BASE_DIR / 'db.sqlite3',
-        }
-    }
+}
+    
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.sqlite3',
