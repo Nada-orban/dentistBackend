@@ -31,7 +31,7 @@ SECRET_KEY = 'django-insecure-)hht(o-1i)6x(xf8f4#dn^@id#y1%p!^772npdnlndp*46xq4z
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['127.0.0.1', '0.0.0.0','localhost','web-production-de0df.up.railway.app','web-production-edf6.up.railway.app','3.13.2.27']
+ALLOWED_HOSTS = ['127.0.0.1', '0.0.0.0','localhost','web-production-de0df.up.railway.app','web-production-edf6.up.railway.app','3.13.2.27','luxurydentalclinic.vercel.app']
 CORS_ALLOW_CREDENTIALS = True
 CORS_ALLOW_ALL_ORIGINS = True
 CORS_ALLOW_METHODS = ["DELETE", "GET", "OPTIONS", "PATCH", "POST", "PUT"]
