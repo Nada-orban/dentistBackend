@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'register',
     'contact',
     'review',
+    'dashboard',
     'rest_framework',
     'multiselectfield',
     'corsheaders',

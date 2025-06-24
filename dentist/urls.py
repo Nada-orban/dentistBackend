@@ -25,6 +25,8 @@ urlpatterns = [
     path('api/doctors/',include('doctors.urls')),
     path('api/register/',include('register.urls')),
     path('api/reservation/',include('reservation.urls')),
+    path('api/dashboard/',include('dashboard.urls')),
+    
     # path('contact/',include('contact.urls')), 
     # path('review/',include('review.urls')),
     
