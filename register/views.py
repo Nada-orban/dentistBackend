@@ -64,4 +64,14 @@ def register_user(request):
         logger.warning(f"Validation errors: {serializerdata.errors}")
         return Response(serializerdata.errors, status=400)  
     
-   
+   #logout
+@api_view(['POST'])
+@permission_classes([AllowAny])
+def logout_user(request):
+    try:
+        request.user.auth_token.delete()
+        return Response({"message": "Logged out successfully"}, status=status.HTTP_200_OK)
+    except Exception as e:
+        logger.exception("Error during logout")
+        return Response({"error": str(e)}, status=500)
+    

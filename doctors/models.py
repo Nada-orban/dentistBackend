@@ -29,5 +29,11 @@ class Doctors (models.Model):
 
     def __str__(self):
         return f"Dr. {self.full_name} - {self.specialization}"
+    
+    def save(self, *args, **kwargs):
+        if self.full_name:
+            # self.full_name = self.full_name.capitalize()
+            self.full_name = self.full_name.title()      
+        super().save(*args, **kwargs)
 
 
