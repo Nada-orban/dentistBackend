@@ -4,7 +4,7 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view,permission_classes
 from rest_framework.authtoken.models import Token
 from rest_framework.permissions import AllowAny ,IsAuthenticated
-from rest_framework.authtoken.views import ObtainAuthToken
+# from rest_framework.authtoken.views import ObtainAuthToken
 from django.contrib.auth import authenticate
 from .serializers import RegisterSerializer
 import traceback
@@ -13,7 +13,6 @@ import logging
 # from .serializers import SignupSerializer
 
 logger = logging.getLogger(__name__)
-
 
 #signin and signup
 @api_view(['POST'])
@@ -25,8 +24,34 @@ def register_user(request):
     if not username or not password:
         return Response({"error": "Username and password are required."}, status=400)
     user = authenticate(username=username, password=password)
+   
+    if User.objects.filter(username=username).exists():
+        return Response({'error': 'Username already taken.'}, status=400)
+    token, _ = Token.objects.get_or_create(user=user)
+    is_doctor = hasattr(user, 'doctor_profile')
+    is_admin = user.is_staff or user.is_superuser
+    return Response({
+        'message': 'Login successful',
+        'user_id': user.id,
+        'username': user.username,
+        'token': token.key,
+        'role': 'doctor' if is_doctor else 'admin' if is_admin else 'user',
+    })
+    
+@api_view(['POST'])
+@permission_classes([AllowAny])
+def login_user(request):
+    username = request.data.get('username')
+    password = request.data.get('password')
+
+    if not username or not password:
+        return Response({"error": "Username and password are required."}, status=400)
+
+    user = authenticate(username=username, password=password)
+
     if user is None:
         return Response({"error": "Invalid credentials."}, status=400)
+
     token, _ = Token.objects.get_or_create(user=user)
     is_doctor = hasattr(user, 'doctor_profile')
     is_admin = user.is_staff or user.is_superuser
