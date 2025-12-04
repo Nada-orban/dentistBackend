@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.contrib.postgres.fields import ArrayField
 
 # Create your models here.
 class Patient(models.Model):
@@ -12,8 +13,8 @@ class Patient(models.Model):
   address = models.CharField(max_length=255, null=True, blank=True)
   doctor=models.ForeignKey('doctors.Doctors',on_delete=models.CASCADE,related_name='patients', null=True,blank=True)
   # medical_history = models.TextField(null=True, blank=True)
-  allergies = models.TextField(null=True, blank=True)
-  medications = models.TextField(null=True, blank=True)
+  allergies = models.JSONField(blank=True, null=True, default=list)
+  medications =  models.JSONField(blank=True, null=True, default=list)
   emergency_contact = models.CharField(max_length=15, null=True, blank=True)
   created_at = models.DateTimeField(auto_now_add=True)
   last_updated_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name='updated_patients')

@@ -47,6 +47,7 @@ def patient_dashboard(request):
             "patient": patient_data,
             "history_entries": history_data
       })
+      
 
     # If user is staff: return all patients and histories
   elif user.is_staff:
@@ -54,10 +55,11 @@ def patient_dashboard(request):
       patient_data = PatientDashboardSerializer(patients, many=True).data
       history_entries = PatientHistory.objects.all()
       history_data = PatientHistoryDashboardSerializer(history_entries, many=True).data
-      return Response({
-            "patients": patient_data,
-            "history_entries": history_data
-      })
+      # return Response({
+      #       "patients": patient_data,
+      #       "history_entries": history_data
+      # })
+      return Response(patient_data)
 
   else:
       return Response({"error": "You are not authorized to view this data."}, status=403)
