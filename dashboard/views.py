@@ -1,4 +1,6 @@
 from django.shortcuts import render
+import uuid
+from django.contrib.auth.models import User
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
@@ -89,13 +91,19 @@ def patient_dashboard(request):
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def create_patient(request):
-  user=request.user
-  if user.patient_profile.exists():
-    return Response({"error": "Patient profile already exists."}, status=400)
+  
+  if not request.user.is_staff:
+    return Response({"error": "Only staff can create patients."}, status=403)
+
   data=request.data
+  patient_user = User.objects.create_user(
+      username=f"patient_{uuid.uuid4().hex[:12]}",  # auto-generate username
+      password=User.objects.make_random_password() 
+)
   serializer=PatientDashboardSerializer(data=data)
+  print("Received:", data.get("allergies"), type(data.get("allergies")))
   if serializer.is_valid():
-    serializer.save(user=user)
+    serializer.save(user=patient_user)
     return Response(serializer.data,status=201)
   return Response(serializer.errors,status=400)
 
